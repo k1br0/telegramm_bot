@@ -1,10 +1,16 @@
 import telebot
-bot = telebot.Telebot("5242357126:AAG5Yjs-ETTpaBIUXLaSwcX1_MtDvz5dkOI")
+import requests
+from auth_data import token
 
-@bot.message_hendler(commands = ["start"])
+def telegram_bot(token):
+    bot = telebot.TeleBot(token)
+    @bot.message_handler(commands=["start"])
+    def start(message):
+        bot.send_message(message.chat.id , "Добрый день")
 
-def start(message):
-    bot.send_message(message.chat.id , "<b>Добрый день</b>" , parse_mode = "html")
+    bot.infinity_polling()
+    bot.polling()
 
 
-bot.polling(none_stop = True)
+if __name__ == '__main__':
+    telegram_bot(token)
