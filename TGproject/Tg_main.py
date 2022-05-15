@@ -52,13 +52,16 @@ def telegram_bot(token):
                          reply_markup=back_to_menu_markup)
 
         if curs_news_message.text == "Bitcoin":
-            def get_data():
+            try:
                 req = requests.get("https://yobit.net/api/3/ticker/btc_usd")
                 responce = req.json()
                 sell_prise = responce["btc_usd"]["sell"]
                 bot.send_message(curs_news_message.chat.id,
                                  f"{sell_prise}")
-
+            except Exception as ex:
+                print(ex)
+                bot.send_message(curs_news_message.chat.id,
+                                 "Пока я вас не понимаю.")
 
         elif curs_news_message.text != "Курсы валют" and curs_news_message.text != "Назад в меню":
                 bot.send_message(curs_news_message.chat.id, "Я пока вас не понимаю")
